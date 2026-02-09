@@ -5,14 +5,17 @@
    The Journal of Physiology, 117(4), 500–544.  
    https://pubmed.ncbi.nlm.nih.gov/12991237/
 
-2. :contentReference[oaicite:0]{index=0} — Wulfram Gerstner, Werner Kistler, Richard Naud, Liam Paninski.  
+2. Gerstner, W., Kistler, W. M., Naud, R., & Paninski, L.  
+   _Neuronal Dynamics: From Single Neurons to Networks and Models of Cognition._  
    Cambridge University Press, 2014.  
    https://neuronaldynamics.epfl.ch/
 
-3. :contentReference[oaicite:1]{index=1} — Bertil Hille.  
+3. Hille, B.  
+   _Ion Channels of Excitable Membranes._  
    Sinauer Associates, 3rd Edition, 2001.
 
-4. :contentReference[oaicite:2]{index=2} — _Hodgkin–Huxley model_.  
+4. Scholarpedia.  
+   _Hodgkin–Huxley model._  
    https://www.scholarpedia.org/article/Hodgkin-Huxley_model
 
 5. Dayan, P., & Abbott, L. F.  
@@ -23,10 +26,11 @@
    _Numerical Recipes: The Art of Scientific Computing._  
    Cambridge University Press.
 
-7. :contentReference[oaicite:3]{index=3} Simulation Environment.  
-   Used for qualitative validation of action potential dynamics.  
+7. NEURON Simulation Environment.  
    https://neuron.yale.edu/neuron/
 
 8. Johnston, D., & Wu, S. M.-S.  
    _Foundations of Cellular Neurophysiology._  
    MIT Press, 1995.
+
+This implementation follows the classical Hodgkin–Huxley formalism and parameterization as described in the references above, with numerical integration performed using explicit Runge–Kutta methods.
