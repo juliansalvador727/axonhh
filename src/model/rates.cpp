@@ -38,9 +38,9 @@ double exp_safe(double x) {
 // lets use a second order taylor approximation for good accuracy lol
 double vtrap(double x, double k) {
 
-    const double eps = 1e-6;
+    const double TOLERANCE = 1e-6;
 
-    if (std::abs(x) < eps) {
+    if (std::abs(x) < TOLERANCE) {
         return k + 0.5 * x + (x * x) / (12.0 * k);
     }
 
