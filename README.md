@@ -12,10 +12,10 @@ capacitance in µF/cm², conductances in mS/cm², and currents in µA/cm².
 
 The neuron membrane is modeled by four time-dependent variables:
 
-- $V(t)$ : membrane voltage (mV)
-- $m(t)$ : sodium activation gating variable
-- $h(t)$ : sodium inactivation gating variable
-- $n(t)$ : potassium activation gating variable
+- $V(t)$ — membrane voltage (mV)
+- $m(t)$ — sodium activation gating variable
+- $h(t)$ — sodium inactivation gating variable
+- $n(t)$ — potassium activation gating variable
 
 The state vector is
 
@@ -38,7 +38,7 @@ I_{\text{inj}}(t)
 \left( I_{Na} + I_K + I_L \right)
 $$
 
-Solving for the voltage derivative:
+Solving for the voltage derivative yields
 
 $$
 \frac{dV}{dt}
@@ -64,19 +64,25 @@ $$
 ### Sodium current
 
 $$
-I_{Na} = \bar g_{Na}\, m^3 h \,(V - E_{Na})
+I_{Na}
+=
+\bar g_{Na}\, m^3 h \,(V - E_{Na})
 $$
 
 ### Potassium current
 
 $$
-I_K = \bar g_K\, n^4 \,(V - E_K)
+I_K
+=
+\bar g_K\, n^4 \,(V - E_K)
 $$
 
 ### Leak current
 
 $$
-I_L = \bar g_L \,(V - E_L)
+I_L
+=
+\bar g_L \,(V - E_L)
 $$
 
 ---
@@ -158,14 +164,16 @@ $$
 
 ---
 
-### Removable Singularities
+## 6. Removable Singularities
 
 The functions $\alpha_m(V)$ and $\alpha_n(V)$ contain removable singularities
-when numerator and denominator approach zero. These limits are
+when numerator and denominator approach zero. The corresponding limits are
 
 $$
-\alpha_m(-40) = 1.0,
-\qquad
+\alpha_m(-40) = 1.0
+$$
+
+$$
 \alpha_n(-55) = 0.1
 $$
 
@@ -173,7 +181,7 @@ These cases must be handled explicitly in numerical implementations.
 
 ---
 
-## 6. Complete System of ODEs
+## 7. Complete System of ODEs
 
 $$
 \begin{aligned}
@@ -191,15 +199,15 @@ I_{\text{inj}}(t)
 \bar g_L (V - E_L)
 \big)
 \Big]
-\\[6pt]
+\\[8pt]
 \frac{dm}{dt}
 &=
 \alpha_m(V)(1 - m) - \beta_m(V)m
-\\[6pt]
+\\[8pt]
 \frac{dh}{dt}
 &=
 \alpha_h(V)(1 - h) - \beta_h(V)h
-\\[6pt]
+\\[8pt]
 \frac{dn}{dt}
 &=
 \alpha_n(V)(1 - n) - \beta_n(V)n
@@ -208,7 +216,7 @@ $$
 
 ---
 
-## 7. Model Parameters
+## 8. Model Parameters
 
 | Parameter     | Description                  | Value                          |
 | ------------- | ---------------------------- | ------------------------------ |
@@ -222,7 +230,7 @@ $$
 
 ---
 
-## 8. Initial Conditions
+## 9. Initial Conditions
 
 The membrane is initialized at rest:
 
@@ -244,7 +252,7 @@ $$
 
 ---
 
-## 9. External Stimulus
+## 10. External Stimulus
 
 The injected current $I_{\text{inj}}(t)$ is an externally defined function of time.
 A common choice is a step current:
@@ -260,15 +268,20 @@ $$
 
 ---
 
-## 10. Notes on Numerical Integration
+## 11. Notes on Numerical Integration
 
 This system has no closed-form solution and must be solved numerically.
 Explicit Runge–Kutta methods (e.g., RK4) with a timestep
-$\Delta t \approx 0.01\ \text{ms}$ provide stable and accurate solutions.
+
+$$
+\Delta t \approx 0.01\ \text{ms}
+$$
+
+provide stable and accurate solutions.
 
 ---
 
-## 11. Voltage Convention Note
+## 12. Voltage Convention Note
 
 The original Hodgkin–Huxley (1952) equations used a voltage shifted such that
 the resting potential corresponded to $V = 0$.
