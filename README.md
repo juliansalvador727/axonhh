@@ -112,7 +112,7 @@ $$x(0) = \frac{\alpha_x(V(0))}{\alpha_x(V(0)) + \beta_x(V(0))} \quad x \in \{m,h
 
 The injected current is defined as a function of time. A common step stimulus is:
 
-$$I_{\text{inj}}(t) = \begin{cases} A, & t_0 \le t \le t_1 \\ 0, & \text{otherwise} \end{cases}$$
+$$I_{\text{inj}}(t) = \begin{cases} A, & t_0 \le t \le t_1 \\\\ 0, & \text{otherwise} \end{cases}$$
 
 ## Numerical Integration
 
