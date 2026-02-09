@@ -6,6 +6,8 @@ using **absolute membrane voltage** (modern convention).
 All voltages are expressed in millivolts (mV), time in milliseconds (ms),
 capacitance in µF/cm², conductances in mS/cm², and currents in µA/cm².
 
+---
+
 ## 1. State Variables
 
 The neuron membrane is modeled by four time-dependent variables:
@@ -21,6 +23,8 @@ $$
 \mathbf{x}(t) = \big(V(t),\, m(t),\, h(t),\, n(t)\big)
 $$
 
+---
+
 ## 2. Membrane Voltage Equation
 
 The membrane is modeled as a capacitor in parallel with ion channels.
@@ -31,9 +35,7 @@ C_m \frac{dV}{dt}
 =
 I_{\text{inj}}(t)
 -
-\left(
-I_{Na} + I_K + I_L
-\right)
+\left( I_{Na} + I_K + I_L \right)
 $$
 
 Solving for the voltage derivative:
@@ -45,11 +47,11 @@ $$
 \left[
 I_{\text{inj}}(t)
 -
-\left(
-I_{Na} + I_K + I_L
-\right)
+\left( I_{Na} + I_K + I_L \right)
 \right]
 $$
+
+---
 
 ## 3. Ionic Currents
 
@@ -62,26 +64,22 @@ $$
 ### Sodium current
 
 $$
-I_{Na}
-=
-\bar g_{Na}\,m^3 h\,(V - E_{Na})
+I_{Na} = \bar g_{Na}\, m^3 h \,(V - E_{Na})
 $$
 
 ### Potassium current
 
 $$
-I_K
-=
-\bar g_K\,n^4\,(V - E_K)
+I_K = \bar g_K\, n^4 \,(V - E_K)
 $$
 
 ### Leak current
 
 $$
-I_L
-=
-\bar g_L\,(V - E_L)
+I_L = \bar g_L \,(V - E_L)
 $$
+
+---
 
 ## 4. Gating Variable Dynamics
 
@@ -100,15 +98,17 @@ $$
 \alpha_x(V)(1 - x)
 -
 \beta_x(V)x,
-\quad x \in \{m,h,n\}
+\qquad x \in \{m,h,n\}
 $$
+
+---
 
 ## 5. Voltage-Dependent Rate Functions
 
 The Hodgkin–Huxley rate functions are empirical fits rewritten here in
 **absolute-voltage form**.
 
-### Sodium activation $m$
+### Sodium activation ($m$)
 
 $$
 \alpha_m(V)
@@ -123,7 +123,9 @@ $$
 4\,e^{-(V + 65)/18}
 $$
 
-### Sodium inactivation $h$
+---
+
+### Sodium inactivation ($h$)
 
 $$
 \alpha_h(V)
@@ -137,7 +139,9 @@ $$
 \frac{1}{1 + e^{-(V + 35)/10}}
 $$
 
-### Potassium activation $n$
+---
+
+### Potassium activation ($n$)
 
 $$
 \alpha_n(V)
@@ -152,16 +156,22 @@ $$
 0.125\,e^{-(V + 65)/80}
 $$
 
-### Removable singularities
+---
+
+### Removable Singularities
 
 The functions $\alpha_m(V)$ and $\alpha_n(V)$ contain removable singularities
 when numerator and denominator approach zero. These limits are
 
 $$
-\alpha_m(-40) = 1.0, \qquad \alpha_n(-55) = 0.1
+\alpha_m(-40) = 1.0,
+\qquad
+\alpha_n(-55) = 0.1
 $$
 
 These cases must be handled explicitly in numerical implementations.
+
+---
 
 ## 6. Complete System of ODEs
 
@@ -180,21 +190,23 @@ I_{\text{inj}}(t)
 +
 \bar g_L (V - E_L)
 \big)
-\Big] \\
-\\
+\Big]
+\\[6pt]
 \frac{dm}{dt}
 &=
-\alpha_m(V)(1 - m) - \beta_m(V)m \\
-\\
+\alpha_m(V)(1 - m) - \beta_m(V)m
+\\[6pt]
 \frac{dh}{dt}
 &=
-\alpha_h(V)(1 - h) - \beta_h(V)h \\
-\\
+\alpha_h(V)(1 - h) - \beta_h(V)h
+\\[6pt]
 \frac{dn}{dt}
 &=
 \alpha_n(V)(1 - n) - \beta_n(V)n
 \end{aligned}
 $$
+
+---
 
 ## 7. Model Parameters
 
@@ -207,6 +219,8 @@ $$
 | $E_{Na}$      | Sodium reversal potential    | $+50\ \text{mV}$               |
 | $E_K$         | Potassium reversal potential | $-77\ \text{mV}$               |
 | $E_L$         | Leak reversal potential      | $-54.387\ \text{mV}$           |
+
+---
 
 ## 8. Initial Conditions
 
@@ -225,8 +239,10 @@ x_\infty(V(0))
 =
 \frac{\alpha_x(V(0))}
 {\alpha_x(V(0)) + \beta_x(V(0))},
-\quad x \in \{m,h,n\}
+\qquad x \in \{m,h,n\}
 $$
+
+---
 
 ## 9. External Stimulus
 
@@ -242,52 +258,19 @@ A, & t_0 \le t \le t_1 \\
 \end{cases}
 $$
 
+---
+
 ## 10. Notes on Numerical Integration
 
 This system has no closed-form solution and must be solved numerically.
 Explicit Runge–Kutta methods (e.g., RK4) with a timestep
 $\Delta t \approx 0.01\ \text{ms}$ provide stable and accurate solutions.
 
+---
+
 ## 11. Voltage Convention Note
 
 The original Hodgkin–Huxley (1952) equations used a voltage shifted such that
 the resting potential corresponded to $V = 0$.
 This implementation uses **absolute membrane voltage** in millivolts,
-which is the modern convention and aligns with contemporary simulators.
-
-## References
-
-1. Hodgkin, A. L., & Huxley, A. F. (1952).  
-   _A quantitative description of membrane current and its application to conduction and excitation in nerve._  
-   The Journal of Physiology, 117(4), 500–544.  
-   https://pubmed.ncbi.nlm.nih.gov/12991237/
-
-2. Gerstner, W., Kistler, W. M., Naud, R., & Paninski, L.  
-   _Neuronal Dynamics: From Single Neurons to Networks and Models of Cognition._  
-   Cambridge University Press, 2014.  
-   https://neuronaldynamics.epfl.ch/
-
-3. Hille, B.  
-   _Ion Channels of Excitable Membranes._  
-   Sinauer Associates, 3rd Edition, 2001.
-
-4. Scholarpedia.  
-   _Hodgkin–Huxley model._  
-   https://www.scholarpedia.org/article/Hodgkin-Huxley_model
-
-5. Dayan, P., & Abbott, L. F.  
-   _Theoretical Neuroscience: Computational and Mathematical Modeling of Neural Systems._  
-   MIT Press, 2001.
-
-6. Press, W. H., Teukolsky, S. A., Vetterling, W. T., & Flannery, B. P.  
-   _Numerical Recipes: The Art of Scientific Computing._  
-   Cambridge University Press.
-
-7. NEURON Simulation Environment.  
-   https://neuron.yale.edu/neuron/
-
-8. Johnston, D., & Wu, S. M.-S.  
-   _Foundations of Cellular Neurophysiology._  
-   MIT Press, 1995.
-
-This implementation follows the classical Hodgkin–Huxley formalism and parameterization as described in the references above, with numerical integration performed using explicit Runge–Kutta methods.
+which is the modern convention.
