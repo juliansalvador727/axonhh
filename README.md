@@ -86,10 +86,6 @@ $$\frac{dh}{dt} = \alpha_h(V) \cdot (1 - h) - \beta_h(V) \cdot h$$
 
 $$\frac{dn}{dt} = \alpha_n(V) \cdot (1 - n) - \beta_n(V) \cdot n$$
 
-Each ionic current follows Ohm’s law:
-
-$$I_{\text{ion}} = g_{\text{ion}}(t) \cdot (V - E_{\text{ion}})$$
-
 ## Model Parameters
 
 | Parameter | Description | Value |
