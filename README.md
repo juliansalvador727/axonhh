@@ -27,42 +27,42 @@ $$\frac{dV}{dt} = \frac{1}{C_m} \left[ I_{\text{inj}}(t) - \left( I_{Na} + I_K +
 
 Each ionic current follows Ohm’s law:
 
-$$I_{\text{ion}} = g_{\text{ion}}(t)\,(V - E_{\text{ion}})$$
+$$I_{\text{ion}} = g_{\text{ion}}(t) \cdot (V - E_{\text{ion}})$$
 
 ### Sodium current
-$$I_{Na} = \bar g_{Na}\, m^3 h \,(V - E_{Na})$$
+$$I_{Na} = \bar g_{Na} \cdot m^3 h \cdot (V - E_{Na})$$
 
 ### Potassium current
-$$I_K = \bar g_K\, n^4 \,(V - E_K)$$
+$$I_K = \bar g_K \cdot n^4 \cdot (V - E_K)$$
 
 ### Leak current
-$$I_L = \bar g_L \,(V - E_L)$$
+$$I_L = \bar g_L \cdot (V - E_L)$$
 
 ## Gating Variable Dynamics
 
 Each gating variable follows first-order kinetics derived from a two-state Markov process:
 
-$$\frac{dx}{dt} = \alpha_x(V)(1 - x) - \beta_x(V)x \quad x \in \{m,h,n\}$$
+$$\frac{dx}{dt} = \alpha_x(V) \cdot (1 - x) - \beta_x(V) \cdot x \quad x \in \{m,h,n\}$$
 
 ## Voltage-Dependent Rate Functions
 
 ### Sodium activation ($m$)
 
-$$\alpha_m(V) = \frac{0.1\,(V + 40)}{1 - e^{-(V + 40)/10}}$$
+$$\alpha_m(V) = \frac{0.1 \cdot (V + 40)}{1 - e^{-(V + 40)/10}}$$
 
-$$\beta_m(V) = 4\,e^{-(V + 65)/18}$$
+$$\beta_m(V) = 4 \cdot e^{-(V + 65)/18}$$
 
 ### Sodium inactivation ($h$)
 
-$$\alpha_h(V) = 0.07\,e^{-(V + 65)/20}$$
+$$\alpha_h(V) = 0.07 \cdot e^{-(V + 65)/20}$$
 
 $$\beta_h(V) = \frac{1}{1 + e^{-(V + 35)/10}}$$
 
 ### Potassium activation ($n$)
 
-$$\alpha_n(V) = \frac{0.01\,(V + 55)}{1 - e^{-(V + 55)/10}}$$
+$$\alpha_n(V) = \frac{0.01 \cdot (V + 55)}{1 - e^{-(V + 55)/10}}$$
 
-$$\beta_n(V) = 0.125\,e^{-(V + 65)/80}$$
+$$\beta_n(V) = 0.125 \cdot e^{-(V + 65)/80}$$
 
 ## Removable Singularities
 
@@ -78,13 +78,17 @@ These limits must be handled explicitly in numerical implementations.
 
 The full Hodgkin–Huxley system is:
 
-$$\frac{dV}{dt} = \frac{1}{C_m} \left[ I_{\text{inj}}(t) - \left( \bar g_{Na} m^3 h (V - E_{Na}) + \bar g_K n^4 (V - E_K) + \bar g_L (V - E_L) \right) \right]$$
+$$\frac{dV}{dt} = \frac{1}{C_m} \left[ I_{\text{inj}}(t) - \left( \bar g_{Na} \cdot m^3 h \cdot (V - E_{Na}) + \bar g_K \cdot n^4 \cdot (V - E_K) + \bar g_L \cdot (V - E_L) \right) \right]$$
 
-$$\frac{dm}{dt} = \alpha_m(V)(1 - m) - \beta_m(V)m$$
+$$\frac{dm}{dt} = \alpha_m(V) \cdot (1 - m) - \beta_m(V) \cdot m$$
 
-$$\frac{dh}{dt} = \alpha_h(V)(1 - h) - \beta_h(V)h$$
+$$\frac{dh}{dt} = \alpha_h(V) \cdot (1 - h) - \beta_h(V) \cdot h$$
 
-$$\frac{dn}{dt} = \alpha_n(V)(1 - n) - \beta_n(V)n$$
+$$\frac{dn}{dt} = \alpha_n(V) \cdot (1 - n) - \beta_n(V) \cdot n$$
+
+Each ionic current follows Ohm’s law:
+
+$$I_{\text{ion}} = g_{\text{ion}}(t) \cdot (V - E_{\text{ion}})$$
 
 ## Model Parameters
 
