@@ -1,34 +1,28 @@
-# Mathematical Model
+## Mathematical Model
 
-This document describes the Hodgkin–Huxley model of action potential generation
-using **absolute membrane voltage** (modern convention).
+This project implements the classical **Hodgkin–Huxley model** using the
+**modern absolute membrane voltage convention**.
 
 All voltages are expressed in millivolts (mV), time in milliseconds (ms),
 capacitance in µF/cm², conductances in mS/cm², and currents in µA/cm².
 
 ---
 
-## 1. State Variables
+## State Variables
 
-The neuron membrane is modeled by four time-dependent variables:
+The neuron membrane is described by four time-dependent variables:
 
-- $V(t)$ — membrane voltage (mV)
+- $V(t)$ — membrane voltage
 - $m(t)$ — sodium activation gating variable
 - $h(t)$ — sodium inactivation gating variable
 - $n(t)$ — potassium activation gating variable
 
-The state vector is
-
-$$
-\mathbf{x}(t) = \big(V(t),\, m(t),\, h(t),\, n(t)\big)
-$$
-
 ---
 
-## 2. Membrane Voltage Equation
+## Membrane Voltage Equation
 
 The membrane is modeled as a capacitor in parallel with ion channels.
-Applying Kirchhoff’s current law gives
+Applying Kirchhoff’s current law gives:
 
 $$
 C_m \frac{dV}{dt}
@@ -38,7 +32,7 @@ I_{\text{inj}}(t)
 \left( I_{Na} + I_K + I_L \right)
 $$
 
-Solving for the voltage derivative yields
+Solving for the voltage derivative:
 
 $$
 \frac{dV}{dt}
@@ -53,7 +47,7 @@ $$
 
 ---
 
-## 3. Ionic Currents
+## Ionic Currents
 
 Each ionic current follows Ohm’s law:
 
@@ -64,55 +58,41 @@ $$
 ### Sodium current
 
 $$
-I_{Na}
-=
-\bar g_{Na}\, m^3 h \,(V - E_{Na})
+I_{Na} = \bar g_{Na}\, m^3 h \,(V - E_{Na})
 $$
 
 ### Potassium current
 
 $$
-I_K
-=
-\bar g_K\, n^4 \,(V - E_K)
+I_K = \bar g_K\, n^4 \,(V - E_K)
 $$
 
 ### Leak current
 
 $$
-I_L
-=
-\bar g_L \,(V - E_L)
+I_L = \bar g_L \,(V - E_L)
 $$
 
 ---
 
-## 4. Gating Variable Dynamics
+## Gating Variable Dynamics
 
-Each gating variable represents the probability that a channel subunit is open.
-They follow first-order kinetics derived from a two-state Markov process:
-
-$$
-C \;\underset{\beta(V)}{\overset{\alpha(V)}{\rightleftarrows}}\; O
-$$
-
-This yields the general form
+Each gating variable follows first-order kinetics derived from a two-state
+Markov process:
 
 $$
 \frac{dx}{dt}
 =
 \alpha_x(V)(1 - x)
 -
-\beta_x(V)x,
-\qquad x \in \{m,h,n\}
+\beta_x(V)x
+\quad
+x \in \{m,h,n\}
 $$
 
 ---
 
-## 5. Voltage-Dependent Rate Functions
-
-The Hodgkin–Huxley rate functions are empirical fits rewritten here in
-**absolute-voltage form**.
+## Voltage-Dependent Rate Functions
 
 ### Sodium activation ($m$)
 
@@ -164,10 +144,10 @@ $$
 
 ---
 
-## 6. Removable Singularities
+## Removable Singularities
 
-The functions $\alpha_m(V)$ and $\alpha_n(V)$ contain removable singularities
-when numerator and denominator approach zero. The corresponding limits are
+The rate functions $\alpha_m(V)$ and $\alpha_n(V)$ contain removable
+singularities at:
 
 $$
 \alpha_m(-40) = 1.0
@@ -177,46 +157,52 @@ $$
 \alpha_n(-55) = 0.1
 $$
 
-These cases must be handled explicitly in numerical implementations.
+These limits must be handled explicitly in numerical implementations.
 
 ---
 
-## 7. Complete System of ODEs
+## Complete System
+
+The full Hodgkin–Huxley system is:
 
 $$
-\begin{aligned}
 \frac{dV}{dt}
-&=
+=
 \frac{1}{C_m}
-\Big[
+\left[
 I_{\text{inj}}(t)
 -
-\big(
+\left(
 \bar g_{Na} m^3 h (V - E_{Na})
 +
 \bar g_K n^4 (V - E_K)
 +
 \bar g_L (V - E_L)
-\big)
-\Big]
-\\[8pt]
+\right)
+\right]
+$$
+
+$$
 \frac{dm}{dt}
-&=
+=
 \alpha_m(V)(1 - m) - \beta_m(V)m
-\\[8pt]
+$$
+
+$$
 \frac{dh}{dt}
-&=
+=
 \alpha_h(V)(1 - h) - \beta_h(V)h
-\\[8pt]
+$$
+
+$$
 \frac{dn}{dt}
-&=
+=
 \alpha_n(V)(1 - n) - \beta_n(V)n
-\end{aligned}
 $$
 
 ---
 
-## 8. Model Parameters
+## Model Parameters
 
 | Parameter     | Description                  | Value                          |
 | ------------- | ---------------------------- | ------------------------------ |
@@ -230,7 +216,7 @@ $$
 
 ---
 
-## 9. Initial Conditions
+## Initial Conditions
 
 The membrane is initialized at rest:
 
@@ -243,19 +229,17 @@ The gating variables are initialized to their steady-state values:
 $$
 x(0)
 =
-x_\infty(V(0))
-=
 \frac{\alpha_x(V(0))}
-{\alpha_x(V(0)) + \beta_x(V(0))},
-\qquad x \in \{m,h,n\}
+{\alpha_x(V(0)) + \beta_x(V(0))}
+\quad
+x \in \{m,h,n\}
 $$
 
 ---
 
-## 10. External Stimulus
+## External Stimulus
 
-The injected current $I_{\text{inj}}(t)$ is an externally defined function of time.
-A common choice is a step current:
+The injected current is defined as a function of time. A common step stimulus is:
 
 $$
 I_{\text{inj}}(t)
@@ -268,25 +252,16 @@ $$
 
 ---
 
-## 11. Notes on Numerical Integration
+## Numerical Integration
 
-This system has no closed-form solution and must be solved numerically.
+This system has no closed-form solution and is solved numerically.
 Explicit Runge–Kutta methods (e.g., RK4) with a timestep
 
 $$
 \Delta t \approx 0.01\ \text{ms}
 $$
 
-provide stable and accurate solutions.
-
----
-
-## 12. Voltage Convention Note
-
-The original Hodgkin–Huxley (1952) equations used a voltage shifted such that
-the resting potential corresponded to $V = 0$.
-This implementation uses **absolute membrane voltage** in millivolts,
-which is the modern convention.
+provide stable and accurate results.
 
 ## References
 
