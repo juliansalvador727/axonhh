@@ -2,7 +2,7 @@
 #include <cmath>
 #include <cstdlib>
 
-#include "model/rates.hpp"
+#include "model/rates.hpp";
 
 namespace {
 
@@ -38,11 +38,11 @@ void assert_finite_nonneg(double x, const char* msg)
 
 void test_finiteness_over_voltage_sweep()
 {
-    const double V_MIN = -100.0;
+    const double V1 = -100.0;
     const double V_MAX =  60.0;
     const double DV    =   0.1;
 
-    for (double V = V_MIN; V <= V_MAX; V += DV) {
+    for (double V = V1; V <= V_MAX; V += DV) {
         assert_finite_nonneg(axonhh::rates::alpha_m(V), "alpha_m finiteness");
         assert_finite_nonneg(axonhh::rates::beta_m(V),  "beta_m finiteness");
         assert_finite_nonneg(axonhh::rates::alpha_h(V), "alpha_h finiteness");
@@ -59,10 +59,46 @@ void test_singularity_limits()
 
     assert_near(axonhh::rates::alpha_m(V_ALPHA_M), 1.0, TOLERANCE, "alpha_m(-40) singularity limit");
     assert_near(axonhh::rates::alpha_n(V_ALPHA_N), 0.1, TOLERANCE, "alpha_n(-55) singularity limit");
-};
+}
 
-void test_at_resting_potential();
-void test_monotonicity_properties();
+void test_at_resting_potential()
+{
+    const double V_rest = -65.0;
+
+    const double am = axonhh::rates::alpha_m(V_rest);
+    const double bm = axonhh::rates::beta_m(V_rest);
+    const double ah = axonhh::rates::alpha_h(V_rest);
+    const double bh = axonhh::rates::beta_h(V_rest);
+    const double an = axonhh::rates::alpha_n(V_rest);
+    const double bn = axonhh::rates::beta_n(V_rest);
+
+    assert_finite_nonneg(am, "alpha_m(-65) finite");
+    assert_finite_nonneg(bm, "beta_m(-65) finite");
+    assert_finite_nonneg(ah, "alpha_h(-65) finite");
+    assert_finite_nonneg(bh, "beta_h(-65) finite");
+    assert_finite_nonneg(an, "alpha_n(-65) finite");
+    assert_finite_nonneg(bn, "beta_n(-65) finite");
+
+    // m-gate: activation mostly closed at rest
+    assert_true(am < bm, "alpha_m < beta_m at rest (m mostly closed)");
+
+    // h-gate: inactivation partially open at rest
+    assert_true(ah < bh || std::abs(ah - bh) < 1.0,
+                "alpha_h and beta_h comparable at rest");
+
+    // n-gate: activation mostly closed at rest
+    assert_true(an < bn, "alpha_n < beta_n at rest (n mostly closed)");
+}
+
+void test_monotonicity_properties()
+{
+    const double V1 = -65.0;
+    const double V2 = -20.0;
+
+    assert_true(axonhh::rates::alpha_m(V1) < axonhh::rates::alpha_m(V2), "alpha_m increases");
+    assert_true(axonhh::rates::beta_m(V1) > axonhh::rates::beta_m(V2), "beta_m decreases");
+    assert_true(axonhh::rates::alpha_n(V1) < axonhh::rates::alpha_n(V2), "alpha_n increases");
+}
 
 } // anonymous namespace to prevent multiple definition errors
 
