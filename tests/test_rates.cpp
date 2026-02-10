@@ -1,6 +1,6 @@
 #include <iostream>
 #include <cmath>
-#include <cstdio>
+#include <cstdlib>
 
 #include "model/rates.hpp"
 
@@ -12,6 +12,7 @@ void assert_true(bool condition, const char* msg)
 {
     if (!condition) {
         std::cerr << "[FAIL] " << msg << "\n";
+        std::exit(1);
     }
 }
 void assert_near(double alpha, double beta, double tolerance, const char* msg) 
@@ -35,39 +36,40 @@ void assert_finite_nonneg(double x, const char* msg)
     }
 }
 
-} // anonymous namespac to prevent multiple definition errors
+void test_finiteness_over_voltage_sweep()
+{
+    const double V_min = -100.0;
+    const double V_max =  60.0;
+    const double dV    =   0.1;
+
+    for (double V = V_min; V <= V_max; V += dV) {
+        assert_finite_nonneg(axonhh::rates::alpha_m(V), "alpha_m finiteness");
+        assert_finite_nonneg(axonhh::rates::beta_m(V),  "beta_m finiteness");
+        assert_finite_nonneg(axonhh::rates::alpha_h(V), "alpha_h finiteness");
+        assert_finite_nonneg(axonhh::rates::beta_h(V),  "beta_h finiteness");
+        assert_finite_nonneg(axonhh::rates::alpha_n(V), "alpha_n finiteness");
+        assert_finite_nonneg(axonhh::rates::beta_n(V),  "beta_n finiteness");
+    }
+}
+
+void test_singularity_limits();
+void test_at_resting_potential();
+void test_monotonicity_properties();
+
+} // anonymous namespace to prevent multiple definition errors
 
 int main() {
+    // see README.md under test rates section for philosophy on testing
     using namespace axonhh::rates;
+
+    std::cout << "[test_rates] starting\n";
+
+    test_finiteness_over_voltage_sweep();
+    test_singularity_limits();
+    test_at_resting_potential();
+    test_monotonicity_properties();
+    
+    std::cout << "[test_rates] successful\n";
     return 0;
 }
 
-/* TODO: Implement this shit
-
-TEST 1: Finiteness over a voltage sweep
-sweep over voltage for [-100mV, +60mV]
-for each voltage assert
-value is finite
-value is not Nan
-value is >= 0
-to catch division by zero, exp overflow, sign errors and if vtrap is broken
-
-TEST 2: correct signularity limits
-specifically check alpha_m(-40) = 1.0 and alpha_n(-55) = 0.1 with a tolerance of 1e-6.
-if this succeeds vtrap, voltage shifts and constants are validated.
-
-TEST 3: (VISUAL)
-at v = -65 mV check rough expectations of the following:
-alpha_m is small
-beta_m is large
-alpha_h is moderate
-beta_h is moderate
-alpha_n is small
-beta_n is moderate
-
-TEST 4: Monotonicitry
-alpha_m(V) should increase with V
-beta_m(V) should decrease with V
-alpha_n(V) should increase with V
-for each of these pick two voltages and assert ordering.
-*/

@@ -6,8 +6,6 @@ The goal of these tests is to ensure numerical correctness, stability, and physi
 
 All tests are dependency-free and run as part of the standalone `test_rates` executable.
 
----
-
 ## Scope
 
 The following six rate functions are tested:
@@ -25,8 +23,6 @@ The following six rate functions are tested:
 - $\alpha_n(V)$, $\beta_n(V)$
 
 All voltages are expressed in millivolts (mV) and rates in $1/\text{ms}$.
-
----
 
 ## TEST 1 — Finiteness Over Voltage Sweep
 
@@ -50,8 +46,6 @@ Ensure all rate functions are numerically well-behaved over a physiologically re
 - Exponential overflow / underflow
 - Broken singularity handling (`vtrap`)
 - Sign errors in formulas
-
----
 
 ## TEST 2 — Correct Singularity Limits
 
@@ -79,8 +73,6 @@ The rate functions contain removable singularities where the denominator approac
 - Correct `vtrap` implementation
 - Correct voltage shifts
 - Correct constants and scaling
-
----
 
 ## TEST 3 — Sanity Check at Resting Potential
 
@@ -112,8 +104,6 @@ _Note: Exact numerical values are not asserted. Only relative magnitudes and pla
 - Incorrect constants
 - Swapped or mis-typed rate equations
 
----
-
 ## TEST 4 — Monotonicity Properties
 
 ### Purpose
@@ -140,8 +130,6 @@ Monotonicity errors often indicate:
 - Incorrect numerator/denominator structure.
 
 These errors may not cause crashes but will produce incorrect dynamics.
-
----
 
 ## Test Philosophy
 
