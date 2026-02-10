@@ -38,11 +38,11 @@ void assert_finite_nonneg(double x, const char* msg)
 
 void test_finiteness_over_voltage_sweep()
 {
-    const double V_min = -100.0;
-    const double V_max =  60.0;
-    const double dV    =   0.1;
+    const double V_MIN = -100.0;
+    const double V_MAX =  60.0;
+    const double DV    =   0.1;
 
-    for (double V = V_min; V <= V_max; V += dV) {
+    for (double V = V_MIN; V <= V_MAX; V += DV) {
         assert_finite_nonneg(axonhh::rates::alpha_m(V), "alpha_m finiteness");
         assert_finite_nonneg(axonhh::rates::beta_m(V),  "beta_m finiteness");
         assert_finite_nonneg(axonhh::rates::alpha_h(V), "alpha_h finiteness");
@@ -52,7 +52,15 @@ void test_finiteness_over_voltage_sweep()
     }
 }
 
-void test_singularity_limits();
+void test_singularity_limits()
+{
+    const double V_ALPHA_M = -40.0;
+    const double V_ALPHA_N = -55.0;
+
+    assert_near(axonhh::rates::alpha_m(V_ALPHA_M), 1.0, TOLERANCE, "alpha_m(-40) singularity limit");
+    assert_near(axonhh::rates::alpha_n(V_ALPHA_N), 0.1, TOLERANCE, "alpha_n(-55) singularity limit");
+};
+
 void test_at_resting_potential();
 void test_monotonicity_properties();
 
