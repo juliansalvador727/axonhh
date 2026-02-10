@@ -1,6 +1,6 @@
 # axonhh
 
-axonhh is an implementation of the classical **Hodgkin–Huxley model** using the **modern absolute membrane voltage convention**.
+axonhh is an implementation of the classical Hodgkin–Huxley model using modern absolute membrane voltage convention.
 
 All voltages are expressed in millivolts (mV), time in milliseconds (ms), capacitance in µF/cm², conductances in mS/cm², and currents in µA/cm².
 
