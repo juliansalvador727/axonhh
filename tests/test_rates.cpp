@@ -100,10 +100,10 @@ void test_monotonicity_properties()
     assert_true(axonhh::rates::alpha_n(V1) < axonhh::rates::alpha_n(V2), "alpha_n increases");
 }
 
-} // anonymous namespace to prevent multiple definition errors
+}
 
 int main() {
-    // see README.md under test rates section for philosophy on testing
+    // see README.md
     using namespace axonhh::rates;
 
     std::cout << "[test_rates] starting\n";
