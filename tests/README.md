@@ -1,5 +1,3 @@
-# Numerical Validation Strategy
-
 ## (`test_integrators.cpp` + `test_rates.cpp`)
 
 This document describes the validation strategy for the numerical core of the Hodgkin–Huxley implementation.
