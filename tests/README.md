@@ -28,7 +28,7 @@ All voltages are expressed in millivolts (mV) and rates in $1/\text{ms}$.
 
 ### Purpose
 
-Ensure all rate functions are numerically well-behaved over a physiologically reasonable voltage range.
+Ensure all rate functions are numerically well-behaved over a reasonable voltage range.
 
 ### Method
 
