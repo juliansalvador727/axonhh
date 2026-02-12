@@ -1,3 +1,5 @@
 build/
 .csv
 out.csv
+.venv
+/plots
