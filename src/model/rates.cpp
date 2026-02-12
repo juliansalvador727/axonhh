@@ -1,4 +1,4 @@
-#include "rates.hpp";
+#include "rates.hpp"
 
 namespace axonhh::rates {
 // Sodium activation (m)

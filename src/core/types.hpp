@@ -34,7 +34,7 @@ struct Deriv {
     double dn_dt;   // 1 1m/s
 };
 
-inline State operator+(const State& a, const State& b) { return {a.V_mV + b.V_mV, a.m + b.m, a.h + b.h, a.n + a.n}; }
+inline State operator+(const State& a, const State& b) { return {a.V_mV + b.V_mV, a.m + b.m, a.h + b.h, a.n + b.n}; }
 inline State operator*(double s, const State& x) { return {s * x.V_mV, s * x.m, s * x.h, s * x.n}; }
 inline State add_scaled(const State& x, const Deriv& k, double dt_ms) { 
     // x + dt * k

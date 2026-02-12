@@ -2,7 +2,7 @@
 #include <cmath>
 #include <cstdlib>
 
-#include "model/rates.hpp";
+#include "model/rates.hpp"
 
 namespace {
 
@@ -116,4 +116,3 @@ int main() {
     std::cout << "[test_rates] successful\n";
     return 0;
 }
-
