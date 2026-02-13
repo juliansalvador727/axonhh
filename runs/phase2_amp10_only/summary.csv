@@ -1,0 +1,2 @@
+amp_uAcm2,spiked,peak_V_mV,t_peak_ms,min_V_mV,max_INa_uAcm2,max_INa_abs_uAcm2,max_IK_uAcm2,csv_path,config_path
+10.0,1,40.26024607,7.14,-75.07813495,-793.4016255,793.4016255,836.605411,runs/phase2_amp10_only/csv/run_amp_10.csv,runs/phase2_amp10_only/configs/run_amp_10.cfg
